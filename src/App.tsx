@@ -6,17 +6,6 @@ import './App.css';
 
 const { Header, Footer, Content } = Layout;
 
-const formItemLayout = {
-  labelCol: {
-    xs: { span: 24 },
-    sm: { span: 6 },
-  },
-  wrapperCol: {
-    xs: { span: 24 },
-    sm: { span: 14 },
-  },
-};
-
 const headerStyle: CSSProperties = {
   textAlign: 'center',
   color: '#fff',
