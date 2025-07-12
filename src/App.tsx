@@ -2,9 +2,22 @@ import { Flex, Layout, Button, DatePicker, Form, Input, InputNumber, Select, Col
 import { useEffect, useState } from 'react';
 import type { CSSProperties } from 'react';
 import dayjs from 'dayjs';
+import type { Dayjs } from 'dayjs';
 import './App.css';
 
 const { Header, Footer, Content } = Layout;
+
+type TFormData = {
+  fullName: string;
+  birthDate: Dayjs;
+  position: 'Директор' | 'Менеджер по работе с клиентами' | 'Специалист тех. поддержки';
+  login: string;
+  email: string;
+  experience?: number | string;
+  password?: string;
+  phone?: string;
+  notes?: string;
+};
 
 const headerStyle: CSSProperties = {
   textAlign: 'center',
@@ -44,7 +57,7 @@ const flexStyle = {
   padding: '40px 0',
 };
 
-const initialData = {
+const initialData: TFormData = {
   fullName: 'Иванов Иван Иванович',
   birthDate: dayjs().subtract(30, 'year'),
   experience: 5,
@@ -57,15 +70,16 @@ const initialData = {
 };
 
 function App() {
-  const [form] = Form.useForm();
-  const [isEditing, setIsEditing] = useState(false);
+  const [form] = Form.useForm<TFormData>();
+  const [formData, setFormData] = useState<TFormData>(initialData);
+  const [isEditing, setIsEditing] = useState<boolean>(false);
 
   useEffect(() => {
-    form.setFieldsValue(initialData);
-  }, [form]);
+    form.setFieldsValue(formData);
+  }, [form, formData]);
 
   const handleCancel = () => {
-    form.setFieldsValue(initialData);
+    form.setFieldsValue(formData);
     setIsEditing(false);
   };
 
@@ -73,11 +87,11 @@ function App() {
     setIsEditing(true);
   };
 
-  // for this task this function will not have any arguments
-  const handleSubmit = (): void => {
+  const handleSubmit = (values: TFormData): void => {
+    console.log('Submitted:', values);
+    setFormData(values);
     setIsEditing(false);
   };
-
   return (
     <Flex style={flexStyle}>
       <Layout style={layoutStyle}>
